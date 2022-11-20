@@ -170,7 +170,7 @@ def on_ui_tabs():
 
         def reload_checkpoints():
             sd_models.list_models()
-            return [gr.update(choices=ui_merge.get_choise_of_models_with_vars(), value="")] * len(_checkpoint_listener)
+            return [gr.update(choices=ui_merge.get_choise_of_models_with_vars(), value="") for i in range(len(_checkpoint_listener))]
         btn_reload_checkpoints.click(
             fn=reload_checkpoints,
             inputs=[],

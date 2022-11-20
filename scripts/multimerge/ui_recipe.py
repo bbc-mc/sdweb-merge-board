@@ -133,7 +133,8 @@ def on_ui_tabs():
     )
 
     def on_reset_vars():
-        choice_of_models = [ x.title for x in sd_models.checkpoints_list.values()]
+        sd_models.list_models()
+        choice_of_models = sd_models.checkpoint_tiles()
         _ret = []
         for i in range(int(len(vars_list)/3)):
             _ret += [ gr.update(visible=False), gr.update(value="", visible=False), gr.update(value="", visible=False, choices=choice_of_models) ]

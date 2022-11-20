@@ -8,7 +8,7 @@ from scripts.multimerge.recipe import S_WS, S_AD, S_SG, choise_of_method
 Variables_Output = ["__O1__", "__O2__", "__O3__", "__O4__", "__O5__", "__O6__", "__O7__", "__O8__", "__O9__", "__O10__"]
 
 def get_choise_of_models_with_vars():
-    return Variables_Output + [ x.title for x in sd_models.checkpoints_list.values()]
+    return Variables_Output + sd_models.checkpoint_tiles()
 
 
 def on_ui_tabs():
