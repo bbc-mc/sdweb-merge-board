@@ -11,7 +11,7 @@ choise_of_method = [S_WS, S_AD, S_SG]
 
 
 class MergeRecipe():
-    def __init__(self, A, B, C, O, M, S, F):
+    def __init__(self, A, B, C, O, M, S, F:bool, CF):
         if C == None:
             C = ""
         if O == None:
@@ -23,6 +23,7 @@ class MergeRecipe():
         self.row_M = M
         self.row_S = S
         self.row_F = F
+        self.row_CF = CF if CF in ["ckpt", "safetensors"] else "ckpt"
 
         self.A = A
         self.B = B
@@ -30,7 +31,8 @@ class MergeRecipe():
         self.O = O
         self.S = self._adjust_method(method=S, model_C=C)
         self.M = self._adjust_multi_by_method(method=S, multi=M)
-        self.F = (F == "True")
+        self.F = self.row_F
+        self.CF = self.row_CF
 
         self.vars = {}  # runtime variables
 
@@ -65,6 +67,7 @@ class MergeRecipe():
         print(f"  M: {self.M}")
         print(f"  F: {self.F}")
         print(f"  O: {self.O}")
+        print(f" CF: {self.CF}")
 
         try:
             results = extras.run_modelmerger(
@@ -74,12 +77,34 @@ class MergeRecipe():
                 self.S,
                 self.M,
                 self.F,
-                self.O
+                self.O,
+                self.CF
             )
+        except TypeError as te:
+            # backward compatibility for change of run_modelmerger
+            # 2022/11/27
+            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
+            print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
+            try:
+                results = extras.run_modelmerger(
+                    self.A,
+                    self.B,
+                    self.C,
+                    self.S,
+                    self.M,
+                    self.F,
+                    self.O
+                )
+            except Exception as e:
+                print(type(e))
+                print(e)
+                return ["Error", "Error"]
         except Exception as e:
             print("Error loading/saving model file:", file=sys.stderr)
+            print(type(e))
+            print(e)
             sd_models.list_models()  # to remove the potentially missing models from the list
-            return "Error: loading/saving model file. It doesn't exist or the name contains illegal characters"
+            return ["Error: loading/saving model file. It doesn't exist or the name contains illegal characters"] *2
 
         # update vars
         self._update_o_filename(index, results[0])

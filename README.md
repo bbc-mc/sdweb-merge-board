@@ -39,7 +39,7 @@
      
       - i.e.) in second lane, you can specify model as `modelA(A2): __O1__`
   
-   - can not use future output as variable
+   - can not use future(not yet generated) output as variable
      
       - bad example) in second lane, `modelA(A2): __O3__`
   
@@ -47,6 +47,12 @@
   | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
   | ![](misc/ss01_M.png)   | Multiplier digit is extended to 0.001 step.                                                                                                                                                             |
   | ![](misc/ss01_S1.png)  | Merging method. Weighted Sum, Add difference, Sigmoid. Implementation of "Sigmoid" is from old-days A1111 code, and this value is exchanged by inv-sigmoid in merging process and used as Weighted Sum. |
+
+- "Checkpoint format"
+  
+   - For backward compatibility, if old "run_modelmerger" found, force "ckpt" as "(CF)Checkpoint format" setting
+     
+     ![](misc/ss04.png)
 
 ## Recipe
 
@@ -105,9 +111,9 @@
 ```
 # Sample Recipe
 a14 = __SD14__ + __F222__, 0.5
-a15 = __SD15__ + __F222__, 0.5
-mix14 = __O1__ + __WD13__ + __SD14__, 1.0
-mix15 = __O2__ + __WD13__ + __SD14__, 1.0
+a15 = __SD15__ + __F222__, 0.5, fp16
+mix14 = __O1__ + __WD13__ + __SD14__, 1.0, safetensors
+mix15 = __O2__ + __WD13__ + __SD14__, 1.0, fp16, safetensors
 
 # variables
 __F222__ # You can use F111 instead.

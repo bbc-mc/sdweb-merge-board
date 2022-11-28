@@ -27,16 +27,16 @@ def on_ui_tabs():
 
         #UI:Multi-Merge
         btn_run_merge, btn_reload_checkpoints, btn_send_to_recipe, submit_result, btn_clear_merge_settings, \
-        A1, B1, C1, M1, S1, F1, O1, \
-        A2, B2, C2, M2, S2, F2, O2, \
-        A3, B3, C3, M3, S3, F3, O3, \
-        A4, B4, C4, M4, S4, F4, O4, \
-        A5, B5, C5, M5, S5, F5, O5, \
-        A6, B6, C6, M6, S6, F6, O6, \
-        A7, B7, C7, M7, S7, F7, O7, \
-        A8, B8, C8, M8, S8, F8, O8, \
-        A9, B9, C9, M9, S9, F9, O9, \
-        A10,B10,C10,M10,S10,F10,O10,\
+        A1, B1, C1, M1, S1, F1, O1, CF1, \
+        A2, B2, C2, M2, S2, F2, O2, CF2, \
+        A3, B3, C3, M3, S3, F3, O3, CF3, \
+        A4, B4, C4, M4, S4, F4, O4, CF4, \
+        A5, B5, C5, M5, S5, F5, O5, CF5, \
+        A6, B6, C6, M6, S6, F6, O6, CF6, \
+        A7, B7, C7, M7, S7, F7, O7, CF7, \
+        A8, B8, C8, M8, S8, F8, O8, CF8, \
+        A9, B9, C9, M9, S9, F9, O9, CF9, \
+        A10,B10,C10,M10,S10,F10,O10,CF10, \
         _checkpoint_listener = ui_merge.on_ui_tabs()
 
         # UI:Recipe
@@ -108,28 +108,28 @@ def on_ui_tabs():
         #
         # == Multi Merge ==
         def modelmerger(
-                    A1, B1, C1, M1, S1, F1, O1,
-                    A2, B2, C2, M2, S2, F2, O2,
-                    A3, B3, C3, M3, S3, F3, O3,
-                    A4, B4, C4, M4, S4, F4, O4,
-                    A5, B5, C5, M5, S5, F5, O5,
-                    A6, B6, C6, M6, S6, F6, O6,
-                    A7, B7, C7, M7, S7, F7, O7,
-                    A8, B8, C8, M8, S8, F8, O8,
-                    A9, B9, C9, M9, S9, F9, O9,
-                    A10,B10,C10,M10,S10,F10,O10
+                    A1, B1, C1, M1, S1, F1, O1, CF1,
+                    A2, B2, C2, M2, S2, F2, O2, CF2,
+                    A3, B3, C3, M3, S3, F3, O3, CF3,
+                    A4, B4, C4, M4, S4, F4, O4, CF4,
+                    A5, B5, C5, M5, S5, F5, O5, CF5,
+                    A6, B6, C6, M6, S6, F6, O6, CF6,
+                    A7, B7, C7, M7, S7, F7, O7, CF7,
+                    A8, B8, C8, M8, S8, F8, O8, CF8,
+                    A9, B9, C9, M9, S9, F9, O9, CF9,
+                    A10,B10,C10,M10,S10,F10,O10,CF10
                 ):
             merge_ope = MergeOperation()
-            merge_ope.add_merge(1, A1, B1, C1, M1, S1, F1, O1)
-            merge_ope.add_merge(2, A2, B2, C2, M2, S2, F2, O2)
-            merge_ope.add_merge(3, A3, B3, C3, M3, S3, F3, O3)
-            merge_ope.add_merge(4, A4, B4, C4, M4, S4, F4, O4)
-            merge_ope.add_merge(5, A5, B5, C5, M5, S5, F5, O5)
-            merge_ope.add_merge(6, A6, B6, C6, M6, S6, F6, O6)
-            merge_ope.add_merge(7, A7, B7, C7, M7, S7, F7, O7)
-            merge_ope.add_merge(8, A8, B8, C8, M8, S8, F8, O8)
-            merge_ope.add_merge(9, A9, B9, C9, M9, S9, F9, O9)
-            merge_ope.add_merge(10,A10,B10,C10,M10,S10,F10,O10)
+            merge_ope.add_merge(1, A1, B1, C1, M1, S1, F1, O1, CF1)
+            merge_ope.add_merge(2, A2, B2, C2, M2, S2, F2, O2, CF2)
+            merge_ope.add_merge(3, A3, B3, C3, M3, S3, F3, O3, CF3)
+            merge_ope.add_merge(4, A4, B4, C4, M4, S4, F4, O4, CF4)
+            merge_ope.add_merge(5, A5, B5, C5, M5, S5, F5, O5, CF5)
+            merge_ope.add_merge(6, A6, B6, C6, M6, S6, F6, O6, CF6)
+            merge_ope.add_merge(7, A7, B7, C7, M7, S7, F7, O7, CF7)
+            merge_ope.add_merge(8, A8, B8, C8, M8, S8, F8, O8, CF8)
+            merge_ope.add_merge(9, A9, B9, C9, M9, S9, F9, O9, CF9)
+            merge_ope.add_merge(10,A10,B10,C10,M10,S10,F10,O10,CF10)
 
             if not merge_ope.can_process():
                 return "Error loading merge settings. A or B missing."
@@ -154,16 +154,16 @@ def on_ui_tabs():
         btn_run_merge.click(
             fn=modelmerger,
             inputs=[
-                A1, B1, C1, M1, S1, F1, O1,
-                A2, B2, C2, M2, S2, F2, O2,
-                A3, B3, C3, M3, S3, F3, O3,
-                A4, B4, C4, M4, S4, F4, O4,
-                A5, B5, C5, M5, S5, F5, O5,
-                A6, B6, C6, M6, S6, F6, O6,
-                A7, B7, C7, M7, S7, F7, O7,
-                A8, B8, C8, M8, S8, F8, O8,
-                A9, B9, C9, M9, S9, F9, O9,
-                A10,B10,C10,M10,S10,F10,O10
+                A1, B1, C1, M1, S1, F1, O1, CF1,
+                A2, B2, C2, M2, S2, F2, O2, CF2,
+                A3, B3, C3, M3, S3, F3, O3, CF3,
+                A4, B4, C4, M4, S4, F4, O4, CF4,
+                A5, B5, C5, M5, S5, F5, O5, CF5,
+                A6, B6, C6, M6, S6, F6, O6, CF6,
+                A7, B7, C7, M7, S7, F7, O7, CF7,
+                A8, B8, C8, M8, S8, F8, O8, CF8,
+                A9, B9, C9, M9, S9, F9, O9, CF9,
+                A10,B10,C10,M10,S10,F10,O10,CF10
             ],
             outputs=[submit_result]
         )
@@ -179,42 +179,42 @@ def on_ui_tabs():
 
         # on UI:Merge to UI:Recipe
         def on_send_to_recipe(
-                    A1, B1, C1, M1, S1, F1, O1,
-                    A2, B2, C2, M2, S2, F2, O2,
-                    A3, B3, C3, M3, S3, F3, O3,
-                    A4, B4, C4, M4, S4, F4, O4,
-                    A5, B5, C5, M5, S5, F5, O5,
-                    A6, B6, C6, M6, S6, F6, O6,
-                    A7, B7, C7, M7, S7, F7, O7,
-                    A8, B8, C8, M8, S8, F8, O8,
-                    A9, B9, C9, M9, S9, F9, O9,
-                    A10,B10,C10,M10,S10,F10,O10
+                A1, B1, C1, M1, S1, F1, O1, CF1,
+                A2, B2, C2, M2, S2, F2, O2, CF2,
+                A3, B3, C3, M3, S3, F3, O3, CF3,
+                A4, B4, C4, M4, S4, F4, O4, CF4,
+                A5, B5, C5, M5, S5, F5, O5, CF5,
+                A6, B6, C6, M6, S6, F6, O6, CF6,
+                A7, B7, C7, M7, S7, F7, O7, CF7,
+                A8, B8, C8, M8, S8, F8, O8, CF8,
+                A9, B9, C9, M9, S9, F9, O9, CF9,
+                A10,B10,C10,M10,S10,F10,O10,CF10
                 ):
             _parser = RecipeParser()
-            _parser.send_to_recipe(A1, B1, C1, O1, M1, S1, F1)
-            _parser.send_to_recipe(A2, B2, C2, O2, M2, S2, F2)
-            _parser.send_to_recipe(A3, B3, C3, O3, M3, S3, F3)
-            _parser.send_to_recipe(A4, B4, C4, O4, M4, S4, F4)
-            _parser.send_to_recipe(A5, B5, C5, O5, M5, S5, F5)
-            _parser.send_to_recipe(A6, B6, C6, O6, M6, S6, F6)
-            _parser.send_to_recipe(A7, B7, C7, O7, M7, S7, F7)
-            _parser.send_to_recipe(A8, B8, C8, O8, M8, S8, F8)
-            _parser.send_to_recipe(A9, B9, C9, O9, M9, S9, F9)
-            _parser.send_to_recipe(A10,B10,C10,O10,M10,S10,F10)
+            _parser.send_to_recipe(A1, B1, C1, O1, M1, S1, F1, CF1)
+            _parser.send_to_recipe(A2, B2, C2, O2, M2, S2, F2, CF2)
+            _parser.send_to_recipe(A3, B3, C3, O3, M3, S3, F3, CF3)
+            _parser.send_to_recipe(A4, B4, C4, O4, M4, S4, F4, CF4)
+            _parser.send_to_recipe(A5, B5, C5, O5, M5, S5, F5, CF5)
+            _parser.send_to_recipe(A6, B6, C6, O6, M6, S6, F6, CF6)
+            _parser.send_to_recipe(A7, B7, C7, O7, M7, S7, F7, CF7)
+            _parser.send_to_recipe(A8, B8, C8, O8, M8, S8, F8, CF8)
+            _parser.send_to_recipe(A9, B9, C9, O9, M9, S9, F9, CF9)
+            _parser.send_to_recipe(A10,B10,C10,O10,M10,S10,F10,CF10)
             return [gr.update(value=_parser.output_txt()), gr.update(value="")]
         btn_send_to_recipe.click(
             fn=on_send_to_recipe,
             inputs=[
-                A1, B1, C1, M1, S1, F1, O1,
-                A2, B2, C2, M2, S2, F2, O2,
-                A3, B3, C3, M3, S3, F3, O3,
-                A4, B4, C4, M4, S4, F4, O4,
-                A5, B5, C5, M5, S5, F5, O5,
-                A6, B6, C6, M6, S6, F6, O6,
-                A7, B7, C7, M7, S7, F7, O7,
-                A8, B8, C8, M8, S8, F8, O8,
-                A9, B9, C9, M9, S9, F9, O9,
-                A10,B10,C10,M10,S10,F10,O10
+                A1, B1, C1, M1, S1, F1, O1, CF1,
+                A2, B2, C2, M2, S2, F2, O2, CF2,
+                A3, B3, C3, M3, S3, F3, O3, CF3,
+                A4, B4, C4, M4, S4, F4, O4, CF4,
+                A5, B5, C5, M5, S5, F5, O5, CF5,
+                A6, B6, C6, M6, S6, F6, O6, CF6,
+                A7, B7, C7, M7, S7, F7, O7, CF7,
+                A8, B8, C8, M8, S8, F8, O8, CF8,
+                A9, B9, C9, M9, S9, F9, O9, CF9,
+                A10,B10,C10,M10,S10,F10,O10,CF10
                 ],
             outputs=[txt_recipe, txt_parse_result],
             _js="select_tab_recipe"
@@ -284,16 +284,16 @@ def on_ui_tabs():
             fn=on_send_recipe_to_merge,
             inputs=[txt_recipe] + vars_list,
             outputs=[
-                A1, B1, C1, M1, S1, F1, O1,
-                A2, B2, C2, M2, S2, F2, O2,
-                A3, B3, C3, M3, S3, F3, O3,
-                A4, B4, C4, M4, S4, F4, O4,
-                A5, B5, C5, M5, S5, F5, O5,
-                A6, B6, C6, M6, S6, F6, O6,
-                A7, B7, C7, M7, S7, F7, O7,
-                A8, B8, C8, M8, S8, F8, O8,
-                A9, B9, C9, M9, S9, F9, O9,
-                A10,B10,C10,M10,S10,F10,O10
+                A1, B1, C1, M1, S1, F1, O1, CF1,
+                A2, B2, C2, M2, S2, F2, O2, CF2,
+                A3, B3, C3, M3, S3, F3, O3, CF3,
+                A4, B4, C4, M4, S4, F4, O4, CF4,
+                A5, B5, C5, M5, S5, F5, O5, CF5,
+                A6, B6, C6, M6, S6, F6, O6, CF6,
+                A7, B7, C7, M7, S7, F7, O7, CF7,
+                A8, B8, C8, M8, S8, F8, O8, CF8,
+                A9, B9, C9, M9, S9, F9, O9, CF9,
+                A10,B10,C10,M10,S10,F10,O10,CF10
             ],
             _js="select_tab_merge"
         )

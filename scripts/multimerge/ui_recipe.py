@@ -9,9 +9,9 @@ default_recipe = " \
 SD-WD Fix = __SD15__ + __WD13__, 0.05 \n\
 SW-F = __O1__ + __F222__ + __SD15__, 1.0 \n\
 r34gg = __r34__ + __gg__, 0.5 \n\
-r34gg-wd = __O3__ + __WD13__, 0.5 \n\
-gwf = __O4__ + __F222__, 0.5 \n\
-test06 = __O2__ + __O5__, 0.3\
+r34gg-wd = __O3__ + __WD13__, 0.5, fp16\n\
+gwf = __O4__ + __F222__, 0.5, safetensors\n\
+test06 = __O2__ + __O5__, 0.3, fp16, safetensors\
 "
 
 choice_of_models = [ x.title for x in sd_models.checkpoints_list.values()]

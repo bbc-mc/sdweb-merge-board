@@ -18,7 +18,7 @@ class RecipeParser():
             # self.recipes = {}  # {"1": recipe_1}
             self.recipes, self.vars_system, self.vars_user, self.vars_txt = self._parse_recipe(self.txt_recipe)
 
-    def send_to_recipe(self, A, B, C, O, M, S, F):
+    def send_to_recipe(self, A, B, C, O, M, S, F, CF):
         def _get_modelname(X):
             if X and X != "":
                 _model = sd_models.get_closet_checkpoint_match(X)
@@ -26,7 +26,7 @@ class RecipeParser():
                     return os.path.splitext(os.path.basename(_model.filename))[0]
             return X
 
-        _recipe = MergeRecipe(A, B, C, O, M, S, F)
+        _recipe = MergeRecipe(A, B, C, O, M, S, F, CF)
         if _recipe.can_process():
             _index = len(self.recipes) + 1
             if re.search("__[O]{1}\d+__", _recipe.A):
@@ -52,9 +52,10 @@ class RecipeParser():
             else:
                 _ret += f"{_recipe.O} = {_recipe.A} + {_recipe.B}, {_recipe.M}"
             if _recipe.F:
-                _ret += ", fp16\n"
-            else:
-                _ret += "\n"
+                _ret += ", fp16"
+            if _recipe.CF:
+                _ret += f", {_recipe.CF}"
+            _ret += "\n"
         #
         _ret += "\n# Variables(System) \n"
         for _item in self.vars_system.keys():
@@ -77,29 +78,34 @@ class RecipeParser():
                 _C = None
             _M = _line_recipe.strip().split("=")[1].split(",")[1]
             try:
-                _F = _line_recipe.strip().split("=")[1].split(",")[2]
+                _F = True if "fp16" in [x.strip() for x in _line_recipe.strip().split("=")[1].split(",")[2:]] else False
             except:
-                _F = None
+                _F = False
+            try:
+                _CF = "safetensors" if "safetensors" in [x.strip() for x in _line_recipe.strip().split("=")[1].split(",")[2:]] else "ckpt"
+            except:
+                _CF = "ckpt"
+
             if not _C:
                 _S = S_WS
             else:
                 _S = S_AD
-            if _F:
-                _F = True
-            else:
-                _F = False
-            _ret = {"A": _A, "B": _B, "C": _C, "O": _O, "M": _M, "F": _F, "S": _S}
+
+            _ret = {"A": _A, "B": _B, "C": _C, "O": _O, "M": _M, "F": _F, "S": _S, "CF": _CF}
 
             # check vals
             _vars_system = {}
             _vars_user = {}
             for value in _ret.values():
-                if value and len(value.strip().split("__")) > 2:
-                    if re.search("__[O]{1}\d+__", value):
-                        _vars_system.update({value:""})
-                    else:
-                        _vars_user.update({value:""})
-            _ret_recipe = MergeRecipe(_A, _B, _C, _O, _M, _S, _F)
+                try:
+                    if value and len(value.strip().split("__")) > 2:
+                        if re.search("__[O]{1}\d+__", value):
+                            _vars_system.update({value:""})
+                        else:
+                            _vars_user.update({value:""})
+                except:
+                    pass
+            _ret_recipe = MergeRecipe(_A, _B, _C, _O, _M, _S, _F, _CF)
             return _ret_recipe, _vars_system, _vars_user
 
         def _dispatch_variable(_line_variable):
@@ -179,16 +185,16 @@ class RecipeParser():
     def output_grupdate_uimerge(self):
         """
             update gr in UI:Multi-Merge
-                A1, B1, C1, M1, S1, F1, O1,
-                A2, B2, C2, M2, S2, F2, O2,
-                A3, B3, C3, M3, S3, F3, O3,
-                A4, B4, C4, M4, S4, F4, O4,
-                A5, B5, C5, M5, S5, F5, O5,
-                A6, B6, C6, M6, S6, F6, O6,
-                A7, B7, C7, M7, S7, F7, O7,
-                A8, B8, C8, M8, S8, F8, O8,
-                A9, B9, C9, M9, S9, F9, O9,
-                A10,B10,C10,M10,S10,F10,O10
+                A1, B1, C1, M1, S1, F1, O1, CF1,
+                A2, B2, C2, M2, S2, F2, O2, CF2,
+                A3, B3, C3, M3, S3, F3, O3, CF3,
+                A4, B4, C4, M4, S4, F4, O4, CF4,
+                A5, B5, C5, M5, S5, F5, O5, CF5,
+                A6, B6, C6, M6, S6, F6, O6, CF6,
+                A7, B7, C7, M7, S7, F7, O7, CF7,
+                A8, B8, C8, M8, S8, F8, O8, CF8,
+                A9, B9, C9, M9, S9, F9, O9, CF9,
+                A10,B10,C10,M10,S10,F10,O10,CF10
         """
         def _get_model_title(X):
             if X and X != "" and X != None:
@@ -209,10 +215,11 @@ class RecipeParser():
             _ret.append(gr.update(value=_recipe.S))
             _ret.append(gr.update(value=_recipe.F))
             _ret.append(gr.update(value=_recipe.O))
+            _ret.append(gr.update(value=_recipe.CF))
             _ret_all += _ret
             index += 1
         for i in range(index, 10):
-            _ret = [None,None,None,None,None,None,None]
+            _ret = [None,None,None,None,None,None,None,None]
             _ret_all += _ret
         return _ret_all
 

@@ -39,7 +39,8 @@ def on_ui_tabs():
                                 O1 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M1 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S1 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F1 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F1 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF1 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A1, B1, C1]
                     with gr.Row():
                         with gr.Column():
@@ -51,7 +52,8 @@ def on_ui_tabs():
                                 O2 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M2 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S2 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F2 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F2 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF2 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A2, B2, C2]
                     with gr.Row():
                         with gr.Column():
@@ -63,7 +65,8 @@ def on_ui_tabs():
                                 O3 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M3 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S3 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F3 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F3 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF3 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A3, B3, C3]
                     with gr.Row():
                         with gr.Column():
@@ -75,7 +78,8 @@ def on_ui_tabs():
                                 O4 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M4 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S4 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F4 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F4 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF4 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A4, B4, C4]
                     with gr.Row():
                         with gr.Column():
@@ -87,7 +91,8 @@ def on_ui_tabs():
                                 O5 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M5 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S5 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F5 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F5 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF5 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A5, B5, C5]
                     with gr.Row():
                         with gr.Column():
@@ -99,7 +104,8 @@ def on_ui_tabs():
                                 O6 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M6 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S6 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F6 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F6 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF6 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A6, B6, C6]
                     with gr.Row():
                         with gr.Column():
@@ -111,7 +117,8 @@ def on_ui_tabs():
                                 O7 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M7 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S7 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F7 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F7 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF7 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A7, B7, C7]
                     with gr.Row():
                         with gr.Column():
@@ -123,7 +130,8 @@ def on_ui_tabs():
                                 O8 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M8 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S8 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F8 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F8 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF8 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A8, B8, C8]
                     with gr.Row():
                         with gr.Column():
@@ -135,7 +143,8 @@ def on_ui_tabs():
                                 O9 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M9 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S9 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F9 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F9 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF9 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A9, B9, C9]
                     with gr.Row():
                         with gr.Column():
@@ -147,7 +156,8 @@ def on_ui_tabs():
                                 O10 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M10 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S10 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
-                                F10 = gr.Checkbox(value=False, interactive=True, label="Save as float16")
+                                F10 = gr.Checkbox(value=False, interactive=True, label=f"(F{_line_number}) Save as float16")
+                                CF10 = gr.Radio(choices=["ckpt", "safetensors"], interactive=True, value="ckpt", label=f"(CF{_line_number}) Checkpoint format")
                                 _checkpoint_listener += [A10, B10, C10]
 
     #
@@ -155,45 +165,45 @@ def on_ui_tabs():
     #
     def on_clear_settings():
         _ret = [
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),
-            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value="")
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt"),
+            gr.update(value=""),gr.update(value=""),gr.update(value=""),gr.update(value=0.5),gr.update(value=S_WS),gr.update(value=False),gr.update(value=""),gr.update(value="ckpt")
             ]
         return _ret
     btn_clear_merge_settings.click(
         fn=on_clear_settings,
         inputs=[],
         outputs=[
-        A1, B1, C1, M1, S1, F1, O1, \
-        A2, B2, C2, M2, S2, F2, O2, \
-        A3, B3, C3, M3, S3, F3, O3, \
-        A4, B4, C4, M4, S4, F4, O4, \
-        A5, B5, C5, M5, S5, F5, O5, \
-        A6, B6, C6, M6, S6, F6, O6, \
-        A7, B7, C7, M7, S7, F7, O7, \
-        A8, B8, C8, M8, S8, F8, O8, \
-        A9, B9, C9, M9, S9, F9, O9, \
-        A10,B10,C10,M10,S10,F10,O10
+        A1, B1, C1, M1, S1, F1, O1, CF1, \
+        A2, B2, C2, M2, S2, F2, O2, CF2, \
+        A3, B3, C3, M3, S3, F3, O3, CF3, \
+        A4, B4, C4, M4, S4, F4, O4, CF4, \
+        A5, B5, C5, M5, S5, F5, O5, CF5, \
+        A6, B6, C6, M6, S6, F6, O6, CF6, \
+        A7, B7, C7, M7, S7, F7, O7, CF7, \
+        A8, B8, C8, M8, S8, F8, O8, CF8, \
+        A9, B9, C9, M9, S9, F9, O9, CF9, \
+        A10,B10,C10,M10,S10,F10,O10,CF10
         ]
     )
 
     return \
         btn_run_merge, btn_reload_checkpoints, btn_send_to_recipe, submit_result, btn_clear_merge_settings, \
-        A1, B1, C1, M1, S1, F1, O1, \
-        A2, B2, C2, M2, S2, F2, O2, \
-        A3, B3, C3, M3, S3, F3, O3, \
-        A4, B4, C4, M4, S4, F4, O4, \
-        A5, B5, C5, M5, S5, F5, O5, \
-        A6, B6, C6, M6, S6, F6, O6, \
-        A7, B7, C7, M7, S7, F7, O7, \
-        A8, B8, C8, M8, S8, F8, O8, \
-        A9, B9, C9, M9, S9, F9, O9, \
-        A10,B10,C10,M10,S10,F10,O10,\
+        A1, B1, C1, M1, S1, F1, O1, CF1, \
+        A2, B2, C2, M2, S2, F2, O2, CF2, \
+        A3, B3, C3, M3, S3, F3, O3, CF3, \
+        A4, B4, C4, M4, S4, F4, O4, CF4, \
+        A5, B5, C5, M5, S5, F5, O5, CF5, \
+        A6, B6, C6, M6, S6, F6, O6, CF6, \
+        A7, B7, C7, M7, S7, F7, O7, CF7, \
+        A8, B8, C8, M8, S8, F8, O8, CF8, \
+        A9, B9, C9, M9, S9, F9, O9, CF9, \
+        A10,B10,C10,M10,S10,F10,O10,CF10,\
         _checkpoint_listener

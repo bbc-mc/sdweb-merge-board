@@ -12,9 +12,9 @@ class MergeOperation:
             _ret = _ret and _recipe.can_process()
         return _ret
 
-    def add_merge(self, index, A, B, C, M, S, F, O):
+    def add_merge(self, index, A, B, C, M, S, F, O, CF):
         if index and index != "" and index >= 0:
-            _recipe = MergeRecipe(A, B, C, O, M, S, F)
+            _recipe = MergeRecipe(A, B, C, O, M, S, F, CF)
             if _recipe.can_process():
                 self.recipes.update({index: _recipe})
 
