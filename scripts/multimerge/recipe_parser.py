@@ -69,20 +69,40 @@ class RecipeParser():
     def _parse_recipe(self, _txt_recipe):
 
         def _dispatch_recipe(_line_recipe):
-            _O = _line_recipe.strip().split("=")[0].strip()
-            _A = _line_recipe.strip().split('=')[1].strip().split(',')[0].strip().split('+')[0].strip()
-            _B = _line_recipe.strip().split('=')[1].strip().split(",")[0].strip().split("+")[1].strip()
+            _line_recipe = _line_recipe.strip()
+
+            # check to set separator
+            SEP_PLUS_P = "+"
+            SEP_PLUS_BPB = " + "
+            if not SEP_PLUS_P in _line_recipe:
+                # invalid recipe
+                print("Error:[recipe_parser] no + found.")
+                return None, None, None
+            _num_plus_bpb = len(_line_recipe.split(SEP_PLUS_BPB))
+            if _num_plus_bpb == 0:
+                # there is no " + ", but "+" is included.
+                print("Warning:[recipe_parser] ' + ' not found. use single '+' as separator. ")
+                SEP_PLUS = SEP_PLUS_P
+            elif _num_plus_bpb == 2 or _num_plus_bpb == 3:
+                SEP_PLUS = SEP_PLUS_BPB
+            else:
+                SEP_PLUS = SEP_PLUS_P
+            _line_recipe_right = _line_recipe.split('=')[1].strip()
+
+            _O = _line_recipe.split("=")[0].strip()
+            _A = _line_recipe_right.split(',')[0].strip().split(SEP_PLUS)[0].strip()
+            _B = _line_recipe_right.split(",")[0].strip().split(SEP_PLUS)[1].strip()
             try:
-                _C = _line_recipe.strip().split("=")[1].strip().split(",")[0].strip().split("+")[2].strip()
+                _C = _line_recipe_right.split(",")[0].strip().split(SEP_PLUS)[2].strip()
             except:
                 _C = None
-            _M = _line_recipe.strip().split("=")[1].split(",")[1]
+            _M = _line_recipe_right.split(",")[1]
             try:
-                _F = True if "fp16" in [x.strip() for x in _line_recipe.strip().split("=")[1].split(",")[2:]] else False
+                _F = True if "fp16" in [x.strip() for x in _line_recipe_right.split(",")[2:]] else False
             except:
                 _F = False
             try:
-                _CF = "safetensors" if "safetensors" in [x.strip() for x in _line_recipe.strip().split("=")[1].split(",")[2:]] else "ckpt"
+                _CF = "safetensors" if "safetensors" in [x.strip() for x in _line_recipe_right.split(",")[2:]] else "ckpt"
             except:
                 _CF = "ckpt"
 
