@@ -54,6 +54,13 @@
      
      ![](misc/ss04.png)
 
+- "Skip Merge if same name checkpoint already exists"
+  
+  ![](misc/ss05.png)
+
+- When checked, Merge-Board check "Output checkpoint name" at start of merging, and skip this lane if checkpoint already exists.
+  ![](misc/04_skip_merge_existing_checkpoint.png)
+
 ## Recipe
 
 ![](misc/ss02.png)

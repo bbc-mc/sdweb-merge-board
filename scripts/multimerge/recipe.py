@@ -2,7 +2,7 @@ import math
 import os
 import sys
 
-from modules import sd_models, extras
+from modules import sd_models, extras, shared
 
 S_WS = "Weighted sum"
 S_AD = "Add difference"
@@ -56,8 +56,15 @@ class MergeRecipe():
         self.B = _apply(self.row_B, _vars)
         self.C = _apply(self.row_C, _vars)
 
-    def run_merge(self, index):
+    def run_merge(self, index, skip_merge_if_exists):
         sd_models.list_models()
+        if skip_merge_if_exists and self._check_ckpt_exists():
+            _filename = self.O + "." + self.CF if self.O != "" else self._estimate_ckpt_name()
+            _result = f"Checkpoint already exist: {_filename}"
+            print(f"Merge skipped. Same name checkpoint already exists.")
+            print(f"  O: {_filename}")
+            self._update_o_filename(index, _result)
+            return [f"[skipped] {_filename}", f"[skipped] {_filename}"]
 
         print( "Starting merge under settings below,")
         print( "  A: {}".format(f"{self.A}" if self.A == self.row_A else f"{self.row_A} -> {self.A}"))
@@ -66,7 +73,7 @@ class MergeRecipe():
         print(f"  S: {self.S}")
         print(f"  M: {self.M}")
         print(f"  F: {self.F}")
-        print(f"  O: {self.O}")
+        print( "  O: {}".format(f"{self.O}" if self.O != "" else f" -> {self._estimate_ckpt_name()}"))
         print(f" CF: {self.CF}")
 
         try:
@@ -160,3 +167,36 @@ class MergeRecipe():
     def _alpha_of_inv_sigmoid(self, alpha):
         alpha = float(alpha)
         return 0.5 - math.sin(math.asin(1.0 - 2.0 * alpha) / 3.0)
+
+    def _check_ckpt_exists(self):
+        if self.O == "":
+            _O = self._estimate_ckpt_name()
+        else:
+            _O = self.O + "." + self.CF
+        ckpt_dir = shared.cmd_opts.ckpt_dir or sd_models.model_path
+        output_modelname = os.path.join(ckpt_dir, _O)
+        if os.path.exists(ckpt_dir) and os.path.exists(output_modelname) and os.path.isfile(output_modelname):
+            return True
+        else:
+            return False
+
+    def _estimate_ckpt_name(self):
+        _A = sd_models.get_closet_checkpoint_match(self.A)
+        _B = sd_models.get_closet_checkpoint_match(self.B)
+        _M = self.M
+        _S = self.S
+        _CF = self.CF
+
+        # File name generation code from
+        #
+        # AUTO 685f963
+        # modules/extras.py
+        # def run_modelmerger
+        # L314
+        _filename = \
+        _A.model_name + '_' + str(round(1-_M, 2)) + '-' + \
+        _B.model_name + '_' + str(round(_M, 2)) + '-' + \
+        _S.replace(" ", "_") + \
+        '-merged.' +  \
+        _CF
+        return _filename
