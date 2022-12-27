@@ -7,7 +7,7 @@ class MergeOperation:
 
     def can_process(self):
         _ret = True
-        for _recipe in self.recipes.values():
+        for _index, _recipe in self.recipes.items():
             _recipe:MergeRecipe = _recipe
             _ret = _ret and _recipe.can_process()
         return _ret

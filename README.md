@@ -1,10 +1,29 @@
 # Marge Board
 
-| Multi Merge        | Merge Recipe (Import/Export) | Checkpoint List    |
-| ------------------ | ---------------------------- | ------------------ |
-| ![](misc/ss01.png) | ![](misc/ss02.png)           | ![](misc/ss03.png) |
+| [Multi-Merge](## Multi-Marge) | [Merge Recipe](## Recipe) (Import/Export) | Checkpoint List    |
+| ----------------------------- | ----------------------------------------- | ------------------ |
+| ![](misc/ss01.png)            | ![](misc/ss02.png)                        | ![](misc/ss03.png) |
 
 - This is Extension for [AUTOMATIC1111's Stable Diffusion Web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+
+## 
+
+## Features
+
+- **Multiple step marge** support ( up to 10 step)
+- Save and Load your merging combination as `Recipe`, which is simple text.
+
+
+
+## Recent Update
+
+2022/12/28
+
+- Add support of **Log file** for keep record of your merges.
+  
+   - you can find your logfile on `(extension's dir)/csv/history.tsv`
+
+
 
 ## How to Install
 
@@ -14,10 +33,7 @@
 
 - Install
 
-## Features
 
-- **Multiple step marge** support ( up to 10 step)
-- Save and Load your merging combination as `Recipe`, which is simple text.
 
 ## Multi-Marge
 

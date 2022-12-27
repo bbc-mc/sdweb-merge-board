@@ -7,13 +7,12 @@ from scripts.multimerge.recipe import S_WS, S_AD, S_SG, choise_of_method
 
 Variables_Output = ["__O1__", "__O2__", "__O3__", "__O4__", "__O5__", "__O6__", "__O7__", "__O8__", "__O9__", "__O10__"]
 
-def get_choise_of_models_with_vars():
-    return Variables_Output + sd_models.checkpoint_tiles()
+def get_choise_of_models_with_vars(current_line=10):
+    return Variables_Output[:current_line-1] + sd_models.checkpoint_tiles()
 
 
 def on_ui_tabs():
 
-    choise_of_models = get_choise_of_models_with_vars()
     _checkpoint_listener = []
 
     with gr.Tab("Multi Merge"):
@@ -37,9 +36,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 1
-                                A1 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B1 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C1 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A1 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B1 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C1 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O1 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M1 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S1 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -50,9 +49,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 2
-                                A2 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B2 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C2 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A2 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B2 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C2 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O2 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M2 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S2 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -63,9 +62,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 3
-                                A3 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B3 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C3 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A3 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B3 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C3 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O3 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M3 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S3 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -76,9 +75,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 4
-                                A4 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B4 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C4 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A4 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B4 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C4 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O4 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M4 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S4 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -89,9 +88,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 5
-                                A5 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B5 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C5 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A5 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B5 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C5 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O5 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M5 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S5 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -102,9 +101,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 6
-                                A6 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B6 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C6 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A6 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B6 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C6 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O6 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M6 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S6 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -115,9 +114,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 7
-                                A7 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B7 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C7 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A7 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B7 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C7 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O7 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M7 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S7 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -128,9 +127,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 8
-                                A8 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B8 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C8 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A8 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B8 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C8 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O8 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M8 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S8 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -141,9 +140,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 9
-                                A9 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B9 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C9 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A9 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B9 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C9 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O9 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M9 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S9 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")
@@ -154,9 +153,9 @@ def on_ui_tabs():
                         with gr.Column():
                             with gr.Row(variant="panel"):
                                 _line_number = 10
-                                A10 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(A{_line_number}) Primary")
-                                B10 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(B{_line_number}) Secondary")
-                                C10 = gr.Dropdown(choices=choise_of_models, interactive=True, label=f"(C{_line_number}) Thertiary")
+                                A10 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(A{_line_number}) Primary")
+                                B10 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(B{_line_number}) Secondary")
+                                C10 = gr.Dropdown(choices=get_choise_of_models_with_vars(_line_number), interactive=True, label=f"(C{_line_number}) Thertiary")
                                 O10 = gr.Textbox(label=f"(O{_line_number}) Output ckpt Name", interactive=True)
                                 M10 = gr.Slider(minimum=0.0, maximum=1.0, step=0.001, label=f'(M{_line_number}) Multiplier', value=0.5, interactive=True)
                                 S10 = gr.Dropdown(choices=choise_of_method, interactive=True, value=choise_of_method[0], label=f"(S{_line_number}) Inter-Method")

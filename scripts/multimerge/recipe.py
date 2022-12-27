@@ -1,13 +1,18 @@
 import math
 import os
 import sys
+import re
 
 from modules import sd_models, extras, shared
+
+from scripts.multimerge.util.merge_history import MergeHistory
 
 S_WS = "Weighted sum"
 S_AD = "Add difference"
 S_SG = "Sigmoid"
 choise_of_method = [S_WS, S_AD, S_SG]
+
+mergeHistory = MergeHistory()
 
 
 class MergeRecipe():
@@ -28,7 +33,7 @@ class MergeRecipe():
         self.A = A
         self.B = B
         self.C = C
-        self.O = O
+        self.O = re.sub(r'[\\|/|:|?|.|"|<|>|\|\*]', '-', O)
         self.S = self._adjust_method(method=S, model_C=C)
         self.M = self._adjust_multi_by_method(method=S, multi=M)
         self.F = self.row_F
@@ -36,11 +41,16 @@ class MergeRecipe():
 
         self.vars = {}  # runtime variables
 
-    def can_process(self):
+    def can_process(self, index=0):
         if self.A == "" or self.B == "" or self.A == None or self.B == None:
             return False
         if (self.C == "" or self.C == None) and self.S == S_AD:
             return False
+        if index > 0:
+            # invalid var check
+            # __O3__, line=4 => ok
+            # __O3__, line=2 => error
+            pass
         return True
 
     def apply_variables(self, _vars:dict):
@@ -58,13 +68,15 @@ class MergeRecipe():
 
     def run_merge(self, index, skip_merge_if_exists):
         sd_models.list_models()
-        if skip_merge_if_exists and self._check_ckpt_exists():
+        if skip_merge_if_exists:
             _filename = self.O + "." + self.CF if self.O != "" else self._estimate_ckpt_name()
-            _result = f"Checkpoint already exist: {_filename}"
-            print(f"Merge skipped. Same name checkpoint already exists.")
-            print(f"  O: {_filename}")
-            self._update_o_filename(index, _result)
-            return [f"[skipped] {_filename}", f"[skipped] {_filename}"]
+            if self._check_ckpt_exists(_filename):
+                # exists
+                _result = f"Checkpoint already exist: {_filename}"
+                print(f"Merge skipped. Same name checkpoint already exists.")
+                print(f"  O: {_filename}")
+                self._update_o_filename(index, _result)
+                return [f"[skipped] {_filename}", f"[skipped] {_filename}"]
 
         print( "Starting merge under settings below,")
         print( "  A: {}".format(f"{self.A}" if self.A == self.row_A else f"{self.row_A} -> {self.A}"))
@@ -107,14 +119,40 @@ class MergeRecipe():
                 print(e)
                 return ["Error", "Error"]
         except Exception as e:
-            print("Error loading/saving model file:", file=sys.stderr)
-            print(type(e))
-            print(e)
+            print("Error: at recipe.run_merge: ", file=sys.stderr)
+            print(type(e), file=sys.stderr)
+            print(e, file=sys.stderr)
             sd_models.list_models()  # to remove the potentially missing models from the list
-            return ["Error: loading/saving model file. It doesn't exist or the name contains illegal characters"] *2
+
+            # try to figure out whats going on
+            def _dprint_model_exists(header, model):
+                if model != "" and sd_models.get_closet_checkpoint_match(model) is not None:
+                    if os.path.exists(sd_models.get_closet_checkpoint_match(model).filename):
+                        print("  {}: is exists:True  [{}]".format(header, model), file=sys.stderr)
+                    else:
+                        print("  {}: is exists:False [{}]".format(header, model), file=sys.stderr)
+                else:
+                    print("  {}: not found:   [{}]".format(header, model), file=sys.stderr)
+            _dprint_model_exists("A", self.A)
+            _dprint_model_exists("B", self.B)
+            _dprint_model_exists("C", self.C)
+
+            return ["Error: at recipe.run_merge. "] *2
 
         # update vars
         self._update_o_filename(index, results[0])
+
+        # save log
+        mergeHistory.add_history(
+            self.A,
+            self.B,
+            self.C,
+            self.S,
+            self.M,
+            self.F,
+            self.O,
+            self.CF,
+            index)
 
         #
         return [f"Merge complete. Checkpoint saved as: [{self.O}]", self.O]
@@ -168,11 +206,7 @@ class MergeRecipe():
         alpha = float(alpha)
         return 0.5 - math.sin(math.asin(1.0 - 2.0 * alpha) / 3.0)
 
-    def _check_ckpt_exists(self):
-        if self.O == "":
-            _O = self._estimate_ckpt_name()
-        else:
-            _O = self.O + "." + self.CF
+    def _check_ckpt_exists(self, _O):
         ckpt_dir = shared.cmd_opts.ckpt_dir or sd_models.model_path
         output_modelname = os.path.join(ckpt_dir, _O)
         if os.path.exists(ckpt_dir) and os.path.exists(output_modelname) and os.path.isfile(output_modelname):
