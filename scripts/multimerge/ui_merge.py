@@ -25,10 +25,12 @@ def on_ui_tabs():
                         btn_reload_checkpoints = gr.Button("Reload Checkpoints")
                         btn_clear_merge_settings = gr.Button("Clear inputs")
                     with gr.Row():
-                        with gr.Column(scale=6):
+                        with gr.Column(scale=1):
                             submit_result = gr.HTML(elem_id="modelmerger_result", show_label=False)
                         with gr.Column(scale=1):
-                            chk_skip_merge_if_exists = gr.Checkbox(label="Skip merge if same-name ckpt already exists", value=False, interactive=True)
+                            with gr.Row():
+                                radio_config_source = gr.Radio(choices=["A, B or C", "B", "C", "Don't"], value="A, B or C", label="Copy config from", type="index")
+                                chk_skip_merge_if_exists = gr.Checkbox(label="Skip merge if same-name ckpt already exists", value=False, interactive=True)
 
             with gr.Row():
                 with gr.Column():
@@ -209,4 +211,4 @@ def on_ui_tabs():
         A8, B8, C8, M8, S8, F8, O8, CF8, \
         A9, B9, C9, M9, S9, F9, O9, CF9, \
         A10,B10,C10,M10,S10,F10,O10,CF10,\
-        _checkpoint_listener, chk_skip_merge_if_exists
+        _checkpoint_listener, chk_skip_merge_if_exists, radio_config_source

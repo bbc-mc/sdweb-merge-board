@@ -66,7 +66,7 @@ class MergeRecipe():
         self.B = _apply(self.row_B, _vars)
         self.C = _apply(self.row_C, _vars)
 
-    def run_merge(self, index, skip_merge_if_exists):
+    def run_merge(self, index, skip_merge_if_exists, config_source):
         sd_models.list_models()
         if skip_merge_if_exists:
             _filename = self.O + "." + self.CF if self.O != "" else self._estimate_ckpt_name()
@@ -89,55 +89,48 @@ class MergeRecipe():
         print(f" CF: {self.CF}")
 
         try:
-            results = extras.run_modelmerger(
-                self.A,
-                self.B,
-                self.C,
-                self.S,
-                self.M,
-                self.F,
-                self.O,
-                self.CF
-            )
-        except TypeError as te:
+            results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source)
+        except TypeError:
             # backward compatibility for change of run_modelmerger
-            # 2022/11/27
-            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
-            print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
+            # 2023/01/11
+            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/954091697fce7a1b7997d5f3d73551f793f6bebc
+            print("Try to use old 'run_modelmerger' params. 'config_source' is ignored")
             try:
-                results = extras.run_modelmerger(
-                    self.A,
-                    self.B,
-                    self.C,
-                    self.S,
-                    self.M,
-                    self.F,
-                    self.O
-                )
+                results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF)
+            except TypeError as te:
+                # backward compatibility for change of run_modelmerger
+                # 2022/11/27
+                # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
+                print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
+                try:
+                    results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O)
+                except Exception as e:
+                    print(type(e))
+                    print(e)
+                    return ["Error", "Error"]
             except Exception as e:
-                print(type(e))
-                print(e)
-                return ["Error", "Error"]
-        except Exception as e:
-            print("Error: at recipe.run_merge: ", file=sys.stderr)
-            print(type(e), file=sys.stderr)
-            print(e, file=sys.stderr)
-            sd_models.list_models()  # to remove the potentially missing models from the list
+                print("Error: at recipe.run_merge: ", file=sys.stderr)
+                print(type(e), file=sys.stderr)
+                print(e, file=sys.stderr)
+                sd_models.list_models()  # to remove the potentially missing models from the list
 
-            # try to figure out whats going on
-            def _dprint_model_exists(header, model):
-                if model != "" and sd_models.get_closet_checkpoint_match(model) is not None:
-                    if os.path.exists(sd_models.get_closet_checkpoint_match(model).filename):
-                        print("  {}: is exists:True  [{}]".format(header, model), file=sys.stderr)
+                # try to figure out whats going on
+                def _dprint_model_exists(header, model):
+                    if model != "" and sd_models.get_closet_checkpoint_match(model) is not None:
+                        if os.path.exists(sd_models.get_closet_checkpoint_match(model).filename):
+                            print("  {}: is exists:True  [{}]".format(header, model), file=sys.stderr)
+                        else:
+                            print("  {}: is exists:False [{}]".format(header, model), file=sys.stderr)
                     else:
-                        print("  {}: is exists:False [{}]".format(header, model), file=sys.stderr)
-                else:
-                    print("  {}: not found:   [{}]".format(header, model), file=sys.stderr)
-            _dprint_model_exists("A", self.A)
-            _dprint_model_exists("B", self.B)
-            _dprint_model_exists("C", self.C)
+                        print("  {}: not found:   [{}]".format(header, model), file=sys.stderr)
+                _dprint_model_exists("A", self.A)
+                _dprint_model_exists("B", self.B)
+                _dprint_model_exists("C", self.C)
 
-            return ["Error: at recipe.run_merge. "] *2
+                return ["Error: at recipe.run_merge. "] *2
+
+        except Exception as e:
+            print(e)
 
         # update vars
         self._update_o_filename(index, results[0])
