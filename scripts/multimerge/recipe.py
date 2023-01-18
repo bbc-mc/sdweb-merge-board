@@ -21,18 +21,18 @@ class MergeRecipe():
             C = ""
         if O == None:
             O = ""
-        self.row_A = A
-        self.row_B = B
-        self.row_C = C
+        self.row_A = "" if type(A) == list and len(A) == 0 else A
+        self.row_B = "" if type(B) == list and len(B) == 0 else B
+        self.row_C = "" if type(C) == list and len(C) == 0 else C
         self.row_O = O
         self.row_M = M
         self.row_S = S
         self.row_F = F
         self.row_CF = CF if CF in ["ckpt", "safetensors"] else "ckpt"
 
-        self.A = A
-        self.B = B
-        self.C = C
+        self.A = self.row_A
+        self.B = self.row_B
+        self.C = self.row_C
         self.O = re.sub(r'[\\|/|:|?|.|"|<|>|\|\*]', '-', O)
         self.S = self._adjust_method(method=S, model_C=C)
         self.M = self._adjust_multi_by_method(method=S, multi=M)
