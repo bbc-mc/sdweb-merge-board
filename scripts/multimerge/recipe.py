@@ -33,7 +33,7 @@ class MergeRecipe():
         self.A = self.row_A
         self.B = self.row_B
         self.C = self.row_C
-        self.O = re.sub(r'[\\|/|:|?|.|"|<|>|\|\*]', '-', O)
+        self.O = re.sub(r'[\\|:|?|"|<|>|\|\*]', '-', O)
         self.S = self._adjust_method(method=S, model_C=C)
         self.M = self._adjust_multi_by_method(method=S, multi=M)
         self.F = self.row_F
