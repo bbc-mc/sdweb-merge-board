@@ -122,39 +122,31 @@ class MergeRecipe():
                     print(te)
                     try:
                         results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O)
-                    except Exception as e:
-                        print(type(e))
-                        print(e)
-                        return ["Error", "Error"]
-                except Exception as e:
-                    print("Error: at recipe.run_merge: ", file=sys.stderr)
-                    print(type(e), file=sys.stderr)
-                    print(e, file=sys.stderr)
-                    sd_models.list_models()  # to remove the potentially missing models from the list
+                    except TypeError as te:
+                        print(te)
+                        return ["Error <TypeError>", "Error <TypeError>"]
+        except MemoryError as e:
+            print("Error: at recipe.run_merge: ", file=sys.stderr)
+            print(type(e), file=sys.stderr)
+            print(e, file=sys.stderr)
+            sd_models.list_models()  # to remove the potentially missing models from the list
 
-                    # try to figure out whats going on
-                    def _dprint_model_exists(header, model):
-                        if model != "" and sd_models.get_closet_checkpoint_match(model) is not None:
-                            if os.path.exists(sd_models.get_closet_checkpoint_match(model).filename):
-                                print("  {}: is exists:True  [{}]".format(header, model), file=sys.stderr)
-                            else:
-                                print("  {}: is exists:False [{}]".format(header, model), file=sys.stderr)
-                        else:
-                            print("  {}: not found:   [{}]".format(header, model), file=sys.stderr)
-                    _dprint_model_exists("A", self.A)
-                    _dprint_model_exists("B", self.B)
-                    _dprint_model_exists("C", self.C)
-
-                    return ["Error: at recipe.run_merge. "] *2
-            except Exception as e:
-                print(e)
-                return ["Error: at recipe.run_merge. "] *2
-        except Exception as e:
-            print(e)
-            return ["Error: at recipe.run_merge. "] *2
+            # try to figure out whats going on
+            def _dprint_model_exists(header, model):
+                if model != "" and sd_models.get_closet_checkpoint_match(model) is not None:
+                    if os.path.exists(sd_models.get_closet_checkpoint_match(model).filename):
+                        print("  {}: is exists:True  [{}]".format(header, model), file=sys.stderr)
+                    else:
+                        print("  {}: is exists:False [{}]".format(header, model), file=sys.stderr)
+                else:
+                    print("  {}: not found:      [{}]".format(header, model), file=sys.stderr)
+            _dprint_model_exists("A", self.A)
+            _dprint_model_exists("B", self.B)
+            _dprint_model_exists("C", self.C)
+            return ["Error", "Error"]
 
         # update vars
-        self._update_o_filename(index, results[4])
+        self._update_o_filename(index, results)
 
         # save log
         def _get_model_name_hash_sha256(model_title):
@@ -199,12 +191,14 @@ class MergeRecipe():
         """
         update self.O and vars {"__Ox__": self.O}
         """
+        results = results[4] if type(results[4]) == str else results[1]
         # Checkpoint saved to " + output_modelname
         ckpt_name = " ".join(results.split(" ")[3:])
         ckpt_name = os.path.basename(ckpt_name)  # expect aaaa.ckpt
         ckpt_name = sd_models.get_closet_checkpoint_match(ckpt_name).title
         # update
         self.O = ckpt_name
+        print(f"  __O{index}__: -> {ckpt_name}")
         self.vars.update({f"__O{index}__": ckpt_name})
 
     def _adjust_method(self, method, model_C):
