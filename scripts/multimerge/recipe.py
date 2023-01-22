@@ -80,7 +80,7 @@ class MergeRecipe():
                 _result = f"Checkpoint already exist: {_filename}"
                 print(f"Merge skipped. Same name checkpoint already exists.")
                 print(f"  O: {_filename}")
-                self._update_o_filename(index, _result)
+                self._update_o_filename(index, [_result])
                 return [f"[skipped] {_filename}", f"[skipped] {_filename}"]
 
         print( "Starting merge under settings below,")
@@ -93,39 +93,49 @@ class MergeRecipe():
         print( "  O: {}".format(f"{self.O}" if self.O != "" else f" -> {self._estimate_ckpt_name()}"))
         print(f" CF: {self.CF}")
 
+        id_task = None
         try:
-            # backward compatibility for change of run_model_merger
-            # 2023/01/19
-            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/0f5dbfffd0b7202a48e404d8e74b5cc9a3e5b135
-            # run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae
-            id_task = None
+            discard_weights = ""
             bake_in_vae = "None"
-            results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae)
+            # backward compatibility for change of run_model_merger
+            # 2023/01/22
+            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/112416d04171e4bee673f0adc9bd3aeba87ec71a
+            # def run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae, discard_weights):
+            results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae, discard_weights)
         except TypeError as te:
             print(te)
-            print("Try to use old 'run_modelmerger' params.")
+            print("Try to use old 'run_modelmerger' params. ")
             try:
-                results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source)
+                # backward compatibility for change of run_model_merger
+                # 2023/01/19
+                # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/0f5dbfffd0b7202a48e404d8e74b5cc9a3e5b135
+                # run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae
+                results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae)
             except TypeError as te:
-                # backward compatibility for change of run_modelmerger
-                # 2023/01/11
-                # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/954091697fce7a1b7997d5f3d73551f793f6bebc
                 print(te)
-                print("Try to use old 'run_modelmerger' params. 'config_source' is ignored")
+                print("Try to use old 'run_modelmerger' params.")
                 try:
-                    results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF)
+                    results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source)
                 except TypeError as te:
                     # backward compatibility for change of run_modelmerger
-                    # 2022/11/27
-                    # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
-                    print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
+                    # 2023/01/11
+                    # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/954091697fce7a1b7997d5f3d73551f793f6bebc
                     print(te)
+                    print("Try to use old 'run_modelmerger' params. 'config_source' is ignored")
                     try:
-                        results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O)
+                        results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF)
                     except TypeError as te:
+                        # backward compatibility for change of run_modelmerger
+                        # 2022/11/27
+                        # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
+                        print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
                         print(te)
-                        return ["Error <TypeError>", "Error <TypeError>"]
-        except MemoryError as e:
+                        try:
+                            results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O)
+                        except TypeError as te:
+                            print(te)
+                            return ["Error <TypeError>", "Error <TypeError>"]
+        except Exception as e:
             print("Error: at recipe.run_merge: ", file=sys.stderr)
             print(type(e), file=sys.stderr)
             print(e, file=sys.stderr)
@@ -143,7 +153,7 @@ class MergeRecipe():
             _dprint_model_exists("A", self.A)
             _dprint_model_exists("B", self.B)
             _dprint_model_exists("C", self.C)
-            return ["Error", "Error"]
+            return [f"Error: {type(e)}", f"Error: {type(e)}"]
 
         # update vars
         self._update_o_filename(index, results)
@@ -187,15 +197,27 @@ class MergeRecipe():
     #
     # local func
     #
-    def _update_o_filename(self, index, results):
+    def _update_o_filename(self, index, results_list):
         """
         update self.O and vars {"__Ox__": self.O}
         """
-        results = results[4] if type(results[4]) == str else results[1]
+        if len(results_list) == 5:
+            results = results_list[4] if type(results_list[4]) == str else results_list[0]
+        else:
+            results = results_list[0]
         # Checkpoint saved to " + output_modelname
         ckpt_name = " ".join(results.split(" ")[3:])
         ckpt_name = os.path.basename(ckpt_name)  # expect aaaa.ckpt
         ckpt_name = sd_models.get_closet_checkpoint_match(ckpt_name).title
+        # why?
+        try:
+            ckpt_info = sd_models.checkpoints_list[ckpt_name]
+        except KeyError as ke:
+            print(ke)
+            target = [x for x in sd_models.checkpoints_list.keys() if ckpt_name in x]
+            if len(target) > 0:
+                ckpt_name = target[0]
+            print(ckpt_name)
         # update
         self.O = ckpt_name
         print(f"  __O{index}__: -> {ckpt_name}")
