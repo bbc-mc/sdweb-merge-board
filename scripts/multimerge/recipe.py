@@ -165,7 +165,7 @@ class MergeRecipe():
             _model_info = sd_models.get_closet_checkpoint_match(model_title)
             if hasattr(_model_info, "sha256") and _model_info.sha256 is None:
                 _model_info:CheckpointInfo = _model_info
-                _model_info.sha256 = hashes.sha256(_model_info.filename, "checkpoint/" + _model_info.title)
+                _model_info.calculate_shorthash()
             _name = _model_info.name if hasattr(_model_info, "name") else _model_info.title
             _hash = _model_info.hash
             _sha256 = _model_info.sha256 if hasattr(_model_info, "sha256") else ""
@@ -208,16 +208,10 @@ class MergeRecipe():
         # Checkpoint saved to " + output_modelname
         ckpt_name = " ".join(results.split(" ")[3:])
         ckpt_name = os.path.basename(ckpt_name)  # expect aaaa.ckpt
-        ckpt_name = sd_models.get_closet_checkpoint_match(ckpt_name).title
-        # why?
-        try:
-            ckpt_info = sd_models.checkpoints_list[ckpt_name]
-        except KeyError as ke:
-            print(ke)
-            target = [x for x in sd_models.checkpoints_list.keys() if ckpt_name in x]
-            if len(target) > 0:
-                ckpt_name = target[0]
-            print(ckpt_name)
+        ckpt_info = sd_models.get_closet_checkpoint_match(ckpt_name)
+        ckpt_info.calculate_shorthash()
+        ckpt_name = ckpt_info.title
+
         # update
         self.O = ckpt_name
         print(f"  __O{index}__: -> {ckpt_name}")
