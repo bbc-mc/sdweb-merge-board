@@ -83,6 +83,22 @@ class MergeRecipe():
                 self._update_o_filename(index, [_result])
                 return [f"[skipped] {_filename}", f"[skipped] {_filename}"]
 
+        # check sha256 and update if needed
+        def check_and_udpate(model_title):
+            if model_title == "":
+                return ""
+            _model_info = sd_models.get_closet_checkpoint_match(model_title)
+            if _model_info is None:
+                return ""
+            if hasattr(_model_info, "sha256") and _model_info.sha256 is None:
+                _model_info:CheckpointInfo
+                _model_info.calculate_shorthash()
+            return _model_info.title
+
+        self.A = check_and_udpate(self.A)
+        self.B = check_and_udpate(self.B)
+        self.C = check_and_udpate(self.C)
+
         print( "Starting merge under settings below,")
         print( "  A: {}".format(f"{self.A}" if self.A == self.row_A else f"{self.row_A} -> {self.A}"))
         print( "  B: {}".format(f"{self.B}" if self.B == self.row_B else f"{self.row_B} -> {self.B}"))
