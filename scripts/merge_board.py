@@ -42,26 +42,26 @@ def on_ui_tabs():
 
         # UI:Recipe
         txt_recipe, txt_parse_result, btn_send_recipe_to_multi_merge, \
-        row_01, txt_vars_01, drp_vars_01, \
-        row_02, txt_vars_02, drp_vars_02, \
-        row_03, txt_vars_03, drp_vars_03, \
-        row_04, txt_vars_04, drp_vars_04, \
-        row_05, txt_vars_05, drp_vars_05, \
-        row_06, txt_vars_06, drp_vars_06, \
-        row_07, txt_vars_07, drp_vars_07, \
-        row_08, txt_vars_08, drp_vars_08, \
-        row_09, txt_vars_09, drp_vars_09, \
-        row_10, txt_vars_10, drp_vars_10, \
-        row_11, txt_vars_11, drp_vars_11, \
-        row_12, txt_vars_12, drp_vars_12, \
-        row_13, txt_vars_13, drp_vars_13, \
-        row_14, txt_vars_14, drp_vars_14, \
-        row_15, txt_vars_15, drp_vars_15, \
-        row_16, txt_vars_16, drp_vars_16, \
-        row_17, txt_vars_17, drp_vars_17, \
-        row_18, txt_vars_18, drp_vars_18, \
-        row_19, txt_vars_19, drp_vars_19, \
-        row_20, txt_vars_20, drp_vars_20 \
+        txt_vars_01, drp_vars_01, \
+        txt_vars_02, drp_vars_02, \
+        txt_vars_03, drp_vars_03, \
+        txt_vars_04, drp_vars_04, \
+        txt_vars_05, drp_vars_05, \
+        txt_vars_06, drp_vars_06, \
+        txt_vars_07, drp_vars_07, \
+        txt_vars_08, drp_vars_08, \
+        txt_vars_09, drp_vars_09, \
+        txt_vars_10, drp_vars_10, \
+        txt_vars_11, drp_vars_11, \
+        txt_vars_12, drp_vars_12, \
+        txt_vars_13, drp_vars_13, \
+        txt_vars_14, drp_vars_14, \
+        txt_vars_15, drp_vars_15, \
+        txt_vars_16, drp_vars_16, \
+        txt_vars_17, drp_vars_17, \
+        txt_vars_18, drp_vars_18, \
+        txt_vars_19, drp_vars_19, \
+        txt_vars_20, drp_vars_20 \
         = ui_recipe.on_ui_tabs()
 
         # UI:Models

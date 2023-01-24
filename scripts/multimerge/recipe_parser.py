@@ -195,10 +195,10 @@ class RecipeParser():
         _ret = []
         for _var_name in _vars.keys():
             if _var_name and _var_name != "":
-                _ret += [gr.update(visible=True), gr.update(value=_var_name, visible=True), gr.update(visible=True)]
+                _ret += [gr.update(value=_var_name, visible=True), gr.update(visible=True)]
             else:
-                _ret += [gr.update(visible=False), gr.update(value="", visible=False), gr.update(value="", visible=False)]
-        _ret += [gr.update(visible=False)] * (len(grs) - len(_vars)*3)
+                _ret += [gr.update(value="", visible=False), gr.update(value="", visible=False)]
+        _ret += [gr.update(visible=False), gr.update(visible=False)] * int(len(grs)/2 - len(_vars))
         return _ret
 
     # UI output for UI:Merge board
