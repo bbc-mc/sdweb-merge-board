@@ -93,6 +93,7 @@ class MergeRecipe():
             if hasattr(_model_info, "sha256") and _model_info.sha256 is None:
                 _model_info:CheckpointInfo
                 _model_info.calculate_shorthash()
+                _model_info.register()
             return _model_info.title
 
         self.A = check_and_udpate(self.A)
@@ -222,11 +223,16 @@ class MergeRecipe():
         else:
             results = results_list[0]
         # Checkpoint saved to " + output_modelname
-        ckpt_name = " ".join(results.split(" ")[3:])
-        ckpt_name = os.path.basename(ckpt_name)  # expect aaaa.ckpt
+        ckpt_path = " ".join(results.split(" ")[3:])
+        ckpt_name = os.path.basename(ckpt_path)  # expect aaaa.ckpt
         ckpt_info = sd_models.get_closet_checkpoint_match(ckpt_name)
-        ckpt_info.calculate_shorthash()
-        ckpt_name = ckpt_info.title
+        if ckpt_info is None and hasattr(ckpt_info, "sha256"):
+            ckpt_info = CheckpointInfo(ckpt_path)
+            ckpt_info.calculate_shorthash()
+            ckpt_info.register()
+            ckpt_name = ckpt_info.title
+        else:
+            sd_models.list_models()
 
         # update
         self.O = ckpt_name
