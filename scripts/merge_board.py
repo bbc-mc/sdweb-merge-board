@@ -37,7 +37,7 @@ def on_ui_tabs():
         A8, B8, C8, M8, S8, F8, O8, CF8, \
         A9, B9, C9, M9, S9, F9, O9, CF9, \
         A10,B10,C10,M10,S10,F10,O10,CF10, \
-        _checkpoint_listener, chk_skip_merge_if_exists, radio_config_source \
+        _checkpoint_listener, chk_skip_merge_if_exists, radio_config_source, chk_save_metadata \
         = ui_merge.on_ui_tabs()
 
         # UI:Recipe
@@ -119,7 +119,7 @@ def on_ui_tabs():
                     A8, B8, C8, M8, S8, F8, O8, CF8,
                     A9, B9, C9, M9, S9, F9, O9, CF9,
                     A10,B10,C10,M10,S10,F10,O10,CF10,
-                    chk_skip_merge_if_exists, radio_config_source
+                    chk_skip_merge_if_exists, radio_config_source, chk_save_metadata
                 ):
             merge_ope = MergeOperation()
             merge_ope.add_merge(1, A1, B1, C1, M1, S1, F1, O1, CF1)
@@ -140,7 +140,7 @@ def on_ui_tabs():
             print(f"Start Merge processes. Total process num: {_process_total} .")
 
             # run merge
-            _ret_all = merge_ope.run_merge(skip_merge_if_exists=chk_skip_merge_if_exists, config_source=radio_config_source)
+            _ret_all = merge_ope.run_merge(skip_merge_if_exists=chk_skip_merge_if_exists, config_source=radio_config_source, save_metadata=chk_save_metadata)
 
             print(f"All Multi-Merge process finished. {len(_ret_all)} files.")
             for _ret in _ret_all:
@@ -166,7 +166,7 @@ def on_ui_tabs():
                 A8, B8, C8, M8, S8, F8, O8, CF8,
                 A9, B9, C9, M9, S9, F9, O9, CF9,
                 A10,B10,C10,M10,S10,F10,O10,CF10,
-                chk_skip_merge_if_exists, radio_config_source
+                chk_skip_merge_if_exists, radio_config_source, chk_save_metadata
             ],
             outputs=[submit_result]
         )

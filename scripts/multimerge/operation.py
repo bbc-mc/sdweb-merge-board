@@ -21,7 +21,7 @@ class MergeOperation:
     def get_process_num(self):
         return len(self.recipes)
 
-    def run_merge(self, skip_merge_if_exists=False, config_source=0):
+    def run_merge(self, skip_merge_if_exists=False, config_source=0, save_metadata=False):
         _ret_all = []
         _vars = {}  # {"__A1__": "sd-v1-5-pruned.ckpt"}
         for _index, _recipe in self.recipes.items():
@@ -29,7 +29,7 @@ class MergeOperation:
             # apply current variables
             _recipe.apply_variables(_vars)
             # run merge
-            _ret = _recipe.run_merge(_index, skip_merge_if_exists, config_source)
+            _ret = _recipe.run_merge(_index, skip_merge_if_exists, config_source, save_metadata)
             _ret_all.append(_ret)
             # update vars
             _vars.update(_recipe.get_vars())

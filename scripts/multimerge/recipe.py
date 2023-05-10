@@ -71,7 +71,7 @@ class MergeRecipe():
         self.B = _apply(self.row_B, _vars)
         self.C = _apply(self.row_C, _vars)
 
-    def run_merge(self, index, skip_merge_if_exists, config_source):
+    def run_merge(self, index, skip_merge_if_exists, config_source, save_metadata):
         sd_models.list_models()
         if skip_merge_if_exists:
             _filename = self.O + "." + self.CF if self.O != "" else self._estimate_ckpt_name()
@@ -111,47 +111,54 @@ class MergeRecipe():
         print(f" CF: {self.CF}")
 
         id_task = None
+        discard_weights = ""
+        bake_in_vae = "None"
         try:
-            discard_weights = ""
-            bake_in_vae = "None"
-            # backward compatibility for change of run_model_merger
-            # 2023/01/22
-            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/112416d04171e4bee673f0adc9bd3aeba87ec71a
-            # def run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae, discard_weights):
-            results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae, discard_weights)
+            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/d132481058f8a827cd407f2121f128a2bb862f7a
+            # def run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae, discard_weights, save_metadata):
+            results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae, discard_weights, save_metadata)
         except TypeError as te:
             print(te)
             print("Try to use old 'run_modelmerger' params. ")
             try:
                 # backward compatibility for change of run_model_merger
-                # 2023/01/19
-                # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/0f5dbfffd0b7202a48e404d8e74b5cc9a3e5b135
-                # run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae
-                results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae)
+                # 2023/01/22
+                # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/112416d04171e4bee673f0adc9bd3aeba87ec71a
+                # def run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae, discard_weights):
+                results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae, discard_weights)
             except TypeError as te:
                 print(te)
-                print("Try to use old 'run_modelmerger' params.")
+                print("Try to use old 'run_modelmerger' params. ")
                 try:
-                    results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source)
+                    # backward compatibility for change of run_model_merger
+                    # 2023/01/19
+                    # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/0f5dbfffd0b7202a48e404d8e74b5cc9a3e5b135
+                    # run_modelmerger(id_task, primary_model_name, secondary_model_name, tertiary_model_name, interp_method, multiplier, save_as_half, custom_name, checkpoint_format, config_source, bake_in_vae
+                    results = extras.run_modelmerger(id_task, self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source, bake_in_vae)
                 except TypeError as te:
-                    # backward compatibility for change of run_modelmerger
-                    # 2023/01/11
-                    # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/954091697fce7a1b7997d5f3d73551f793f6bebc
                     print(te)
-                    print("Try to use old 'run_modelmerger' params. 'config_source' is ignored")
+                    print("Try to use old 'run_modelmerger' params.")
                     try:
-                        results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF)
+                        results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF, config_source)
                     except TypeError as te:
                         # backward compatibility for change of run_modelmerger
-                        # 2022/11/27
-                        # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
-                        print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
+                        # 2023/01/11
+                        # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/954091697fce7a1b7997d5f3d73551f793f6bebc
                         print(te)
+                        print("Try to use old 'run_modelmerger' params. 'config_source' is ignored")
                         try:
-                            results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O)
+                            results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O, self.CF)
                         except TypeError as te:
+                            # backward compatibility for change of run_modelmerger
+                            # 2022/11/27
+                            # https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/dac9b6f15de5e675053d9490a20e0457dcd1a23e/modules/extras.py#L253
+                            print("Try to use old 'run_modelmerger' params. 'Checkpoint format is forced to 'ckpt'")
                             print(te)
-                            return ["Error <TypeError>", "Error <TypeError>"]
+                            try:
+                                results = extras.run_modelmerger(self.A, self.B, self.C, self.S, self.M, self.F, self.O)
+                            except TypeError as te:
+                                print(te)
+                                return ["Error <TypeError>", "Error <TypeError>"]
         except Exception as e:
             print("Error: at recipe.run_merge: ", file=sys.stderr)
             print(type(e), file=sys.stderr)

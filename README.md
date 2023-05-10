@@ -13,8 +13,6 @@
 - **Multiple step marge** support ( up to 10 step)
 - Save and Load your merging combination as `Recipe`, which is simple text.
 
-
-
 ## Recent Update
 
 2022/12/28
@@ -23,8 +21,6 @@
   
    - you can find your logfile on `(extension's dir)/csv/history.tsv`
 
-
-
 ## How to Install
 
 - Go to `Extensions` tab on your web UI
@@ -32,8 +28,6 @@
 - `Install from URL` with this repo URL
 
 - Install
-
-
 
 ## Multi-Marge
 
@@ -59,10 +53,11 @@
      
       - bad example) in second lane, `modelA(A2): __O3__`
   
-  | ![](misc/ss01_ABC.png) | Select checkpoint by Dropdown. You can select Output checkpoint of each lane by variables like `__O1__`.                                                                                                |
-  | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | ![](misc/ss01_M.png)   | Multiplier digit is extended to 0.001 step.                                                                                                                                                             |
-  | ![](misc/ss01_S1.png)  | Merging method. Weighted Sum, Add difference, Sigmoid. Implementation of "Sigmoid" is from old-days A1111 code, and this value is exchanged by inv-sigmoid in merging process and used as Weighted Sum. |
+  | ![](misc/ss01_ABC.png)  | Select checkpoint by Dropdown. You can select Output checkpoint of each lane by variables like `__O1__`.                                                                                                |
+  | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | ![](misc/ss01_M.png)    | Multiplier digit is extended to 0.001 step.                                                                                                                                                             |
+  | ![](misc/ss01_S1.png)   | Merging method. Weighted Sum, Add difference, Sigmoid. Implementation of "Sigmoid" is from old-days A1111 code, and this value is exchanged by inv-sigmoid in merging process and used as Weighted Sum. |
+  | ![](misc/ss01_meta.png) | Add information of used models as metadata of 'safetensors'.                                                                                                                                            |
 
 - "Checkpoint format"
   
