@@ -6,8 +6,6 @@
 
 - This is Extension for [AUTOMATIC1111's Stable Diffusion Web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
-## 
-
 ## Features
 
 - **Multiple step marge** support ( up to 10 step)
@@ -15,11 +13,25 @@
 
 ## Recent Update
 
-2022/12/28
+### 2023/09/03
+
+- fix error with v1.6.0
+
+  - these parames are set as default below:
+
+```json
+discard_weights = ""
+bake_in_vae = "None"
+add_merge_recipe = True
+copy_metadata_fields = False
+metadata_json = "{}"
+```
+
+### 2022/12/28
 
 - Add support of **Log file** for keep record of your merges.
-  
-   - you can find your logfile on `(extension's dir)/csv/history.tsv`
+
+  - you can find your logfile on `(extension's dir)/csv/history.tsv`
 
 ## How to Install
 
